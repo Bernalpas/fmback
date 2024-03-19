@@ -1,0 +1,12 @@
+{
+  "name": "practica",
+  "version": "2.0.0",
+  "description": "mis módulos propios para exports",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Berni",
+  "license": "MIT"
+}

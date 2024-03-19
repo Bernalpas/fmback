@@ -1,0 +1,15 @@
+
+
+body{
+    background: rgb(200, 238, 210);
+    display: flex;
+}
+
+h1{
+    font-size: 45px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.redirect{
+    background: rgb(238, 154, 154);
+}
