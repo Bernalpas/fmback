@@ -8,6 +8,7 @@
                 <th scope="col">Teléfono</th>
                 <th scope="col">Email</th>
                 <th scope="col">Consulta</th>
+                <th scope="col">Provincia</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -16,11 +17,12 @@
 
                 <tr>
                     <th scope="row">{{idPersona}}</th>
-                    <td>{{nombre}}</td>
-                    <td>{{apellido}}</td>
-                    <td>{{telefono}}</td>
-                    <td>{{email}}</td>
-                    <td>{{comentario}}</td>
+                    <td>{{nombrePersona}}</td>
+                    <td>{{apellidoPersona}}</td>
+                    <td>{{telefonoPersona}}</td>
+                    <td>{{emailPersona}}</td>
+                    <td>{{comentarioPersona}}</td>
+                    <td>{{nombreProvincia}}</td>
                 </tr>
 
             {{/each}}
@@ -58,7 +60,9 @@
     </div>
 </form>
 
-<form action="" method="post">
+
+{{!-- Modal para actualizar los datos del alumno --}}
+<form action="/api/contactos/actualizar" method="post">
     <div class="modal" id="editModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

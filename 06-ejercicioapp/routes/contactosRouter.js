@@ -4,7 +4,9 @@ const {
     paginaContacto,
     paginaFormulario,
     paginaListar,
-    paginaBorrar
+    paginaBorrar,
+    paginaActualizar,
+    paginaActualizado
     } = require('../controllers/contactosController');
 
 
@@ -16,5 +18,8 @@ router.post('/formulario', paginaFormulario);
 
 router.post('/borrar', paginaBorrar)
 
+router.post('/actualizar', paginaActualizar);
+
+router.post('/actualizado', paginaActualizado);
 
 module.exports = router;

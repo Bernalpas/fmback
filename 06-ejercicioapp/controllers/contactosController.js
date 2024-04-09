@@ -18,15 +18,22 @@ const paginaFormulario = (req, res) => {
     const telefono = parseInt(req.body.telefono);
     const email = req.body.email;
     const consulta = req.body.consulta;
+    const provincia = parseInt(req.body.provincia);
+
+    //prueba de data
+    const select = req.body.select;
+
+    console.log(select);
 
     const sqlQuery = `INSERT INTO PERSONA SET ?`
 
     const datoSql = {
-        nombre: nombre,
-        apellido: apellido,
-        telefono: telefono,
-        email: email,
-        comentario: consulta
+        nombrePersona: nombre,
+        apellidoPersona: apellido,
+        telefonoPersona: telefono,
+        emailPersona: email,
+        comentarioPersona: consulta,
+        provinciaPersona: provincia
     }
 
     //Ejecuto una consulta a la base de datos con el método query
@@ -48,7 +55,11 @@ const paginaFormulario = (req, res) => {
 //Seleccionamos los datos desde la database
 const paginaListar = (req, res) =>{
 
-    const sqlQuery = `SELECT * FROM PERSONA`
+    const sqlQuery = `SELECT persona.idPersona, persona.nombrePersona, persona.apellidoPersona, persona.telefonoPersona, persona.emailPersona, persona.comentarioPersona, provincia.nombreProvincia 
+    from persona 
+    inner join provincia 
+    on provinciaPersona = idProvincia
+    order by idPersona`
 
     connection.query(sqlQuery, (err, result)=>{
         if (err) {
@@ -97,6 +108,71 @@ const paginaBorrar = (req, res) => {
 
 }
 
+//función para actualizar los datos del contacto
+const paginaActualizar = (req, res) => {
+
+    const id = req.body.idPersona;
+
+
+    const sqlQuery = `SELECT * FROM PERSONA WHERE idPersona = ${id}`
+
+    connection.query(sqlQuery, (err, result)=>{
+        if (err) {
+            console.log('Error al leer los datos');
+            console.log(err);
+            res.send('Error al leer los datos');
+        } else {
+            console.log('Lectura de datos correcta');
+            console.log(result[0]);
+            //res.send('Datos insertados correctamente');
+            res.render('editarContactos',
+            {
+                style: 'clases.css',
+                persona: result[0]
+            })
+        }
+    });
+
+}
+
+const paginaActualizado = (req, res) => {
+
+    const nombre = req.body.nombre;
+    const apellido = req.body.apellido;
+    const telefono = parseInt(req.body.telefono);
+    const email = req.body.email;
+    const id = req.body.idPersona;
+
+    console.log(id);
+
+    const sqlQuery = `UPDATE PERSONA SET ? WHERE idPersona = ${id}`
+
+    const datoSql = {
+        nombre: nombre,
+        apellido: apellido,
+        telefono: telefono,
+        email: email
+    }
+
+    //Ejecuto una consulta a la base de datos con el método query
+    connection.query(sqlQuery, datoSql, (err, result)=>{
+        if (err) {
+            console.log('Error al insertar los datos');
+            console.log(err);
+            res.send('Error al insertar los datos');
+        } else {
+            console.log('Datos insertados correctamente');
+            console.log(result);
+            //res.send('Datos insertados correctamente');
+            res.render('index')
+        }
+    })
+
+
+}
+
+
+
 const eliminado = (id) => {
 
     const sqlQuery = `SELECT * FROM PERSONA WHERE idPersona = ${id}`
@@ -122,5 +198,7 @@ module.exports = {
     paginaContacto,
     paginaFormulario,
     paginaListar,
-    paginaBorrar
+    paginaBorrar,
+    paginaActualizar,
+    paginaActualizado
 }
