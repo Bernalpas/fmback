@@ -7,8 +7,8 @@
                 <th scope="col">Apellido</th>
                 <th scope="col">Teléfono</th>
                 <th scope="col">Email</th>
-                <th scope="col">Consulta</th>
                 <th scope="col">Provincia</th>
+                <th scope="col">Consulta</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -16,13 +16,13 @@
             {{#each persona}}
 
                 <tr>
-                    <th scope="row">{{idPersona}}</th>
-                    <td>{{nombrePersona}}</td>
-                    <td>{{apellidoPersona}}</td>
-                    <td>{{telefonoPersona}}</td>
-                    <td>{{emailPersona}}</td>
-                    <td>{{comentarioPersona}}</td>
-                    <td>{{nombreProvincia}}</td>
+                    <th scope="row">{{_id}}</th> 
+                    <td>{{nombre}}</td>
+                    <td>{{apellido}}</td>
+                    <td>{{telefono}}</td>
+                    <td>{{email}}</td>
+                    <td>{{provincia}}</td>
+                    <td>{{consulta}}</td>
                 </tr>
 
             {{/each}}
@@ -46,7 +46,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="idPersona">Seleccione el ID para eliminar</label>
-                    <input type="number" id="idPersona" name="idPersona">
+                    <input type="text" id="id" name="id">
                 </div>
                 <div class="modal-body">
                     <p>¿Está segura de eliminar el usuario?</p>
@@ -71,8 +71,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="idPersona">Seleccione el ID para Actualizar</label>
-                    <input type="number" id="idPersona" name="idPersona">
+                    <label for="id">Seleccione el ID para Actualizar</label>
+                    <input type="text" id="id" name="id">
                 </div>
                 <div class="modal-body">
                     <p>¿Está segura de actualizar el usuario?</p>

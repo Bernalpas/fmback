@@ -2,11 +2,15 @@
 import { check } from 'express-validator';
 import { Router } from 'express';
 
+/* 
+    esta ruta responde a la url /api/login/
+*/
 const router = Router();
 
 import { 
     formularioRegistro,
-    registrarUsuario
+    registrarUsuario, 
+    loginUsuario
 } from '../controllers/usuarioController.js';
 
 
@@ -21,16 +25,17 @@ router.post('/registro', [
 
 
 router.get('/login', (req, res) => { 
-    res.render('registro', {
-        style: 'registro.css'
+    res.render('loginUsuario', {
+        style: 'contacto.css'
     });
 });
 
 
-router.post('/login', (req, res) => {
-    console.log(req.body);
-    res.send('Recibido');
-});
+router.post('/login',[
+    check('email').isEmail().withMessage('El email no es válido'),
+    check('password').isLength({min: 8}).withMessage('La contraseña debe tener al menos 8 caracteres')
+], loginUsuario);
+
 
 export default router;
 

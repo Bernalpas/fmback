@@ -28,6 +28,7 @@ const conectarDB = async () =>{
     } catch(error){
         console.log('Error al conectar a la base de datos', error);
     }
+
 }
 
 //Ejecutamos la conexión a la data base
