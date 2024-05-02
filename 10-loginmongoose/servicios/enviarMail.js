@@ -26,7 +26,7 @@ const enviarMail = async (email, nombre) => {
         from: `Empresa < ${MAIL_EMPRESA} >`,
         to: email,
         subject: 'Registro exitoso',
-        text: `<h2>Hola ${nombre}, te has registrado correctamente</h2> <br>`
+        html: `<h2>Hola ${nombre}, te has registrado correctamente</h2> <br>`
         `<p>Gracias por registrarte en nuestra plataforma, estamos contentos de 
         tenerte con nosotros!!</p>`
         //`<a href= ${LINK_DEPLOY} >Inicia sesión</a>`,

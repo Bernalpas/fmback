@@ -2,6 +2,9 @@
 import { check } from 'express-validator';
 import { Router } from 'express';
 
+//importamos el middleware de verificación de token
+import verificarJWT from '../middlewares/verificarJWT.js';
+
 /* 
     esta ruta responde a la url /api/login/
 */
@@ -10,7 +13,8 @@ const router = Router();
 import { 
     formularioRegistro,
     registrarUsuario, 
-    loginUsuario
+    loginUsuario,
+    usuarioAdmin
 } from '../controllers/usuarioController.js';
 
 
@@ -36,6 +40,8 @@ router.post('/login',[
     check('password').isLength({min: 8}).withMessage('La contraseña debe tener al menos 8 caracteres')
 ], loginUsuario);
 
+
+router.get('/contacto', verificarJWT, usuarioAdmin);
 
 export default router;
 

@@ -10,6 +10,10 @@ import bcrypt from "bcrypt";
 //importamos el envio de mail
 import enviarMail from '../servicios/enviarMail.js';
 
+//importamos el generador de token
+import generarJWT from '../middlewares/generarJWT.js';
+
+
 const formularioRegistro = (req, res) => {
     res.render('registroUsuario');
 };
@@ -65,11 +69,20 @@ const registrarUsuario = async (req, res) => {
             //guardamos el usuario en la base de datos
             await usuario.save();
 
+            //generamos el token
+            const token = await generarJWT(usuario);
+
+            //imprimimos el token
+            console.log(`5. ${token}`);
+
+            //enviamos el token al usuario registrado
+            res.header('x-auth-token', token);
+
             //enviamos un mail al usuario registrado
             enviarMail(usuario.email, usuario.nombre).catch(console.error);
     
-            return res.json({
-                msg: 'Usuario registrado correctamente en la database'
+            return res.render('usuarioToken', {
+                token: token,
             });
 
         }
@@ -124,10 +137,18 @@ const loginUsuario = async (req, res) => {
                 });
             }
 
-            res.json({
+            //generamos el token
+            const token = await generarJWT(usuario);
+
+/*             res.json({
                 msg: 'Usuario logueado correctamente',
                 usuario: usuario,
                 match: match
+            }); */
+
+            res.render('contacto', {
+                nombre: usuario.nombre,
+                token: token
             });
         }
 
@@ -140,10 +161,21 @@ const loginUsuario = async (req, res) => {
 
 }
 
+const usuarioAdmin = (req, res) => { 
+
+    const user = req.user;
+
+    console.log(user);
+
+
+    res.render('contacto', { nombre: user.nombre });
+}
+
 export {
     formularioRegistro,
     registrarUsuario,
-    loginUsuario
+    loginUsuario,
+    usuarioAdmin
 };  
 
 

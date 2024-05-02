@@ -18,6 +18,7 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.use('/api/login', loginRouter)
+//app.use('/api/admin', adminRouter)
 
 app.get('/', (req, res) => {
     res.render('index', {
