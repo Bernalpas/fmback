@@ -7,6 +7,8 @@ dotenv.config();
 
 const PORT = process.env.PORT || 9000;
 
+const conectarDB = require('./models/conexion');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 

@@ -3,3 +3,7 @@
 body{
     background: rgb(226, 203, 174);
 }
+
+iframe{
+    border: 0;
+}
