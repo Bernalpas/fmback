@@ -28,7 +28,11 @@ router.post('/registro', async (req = request, res= response) => {
 
     try {
 
-      await User.create(persona);
+      const usuario = new User(persona);
+
+      await User.create(usuario);
+
+      console.log(usuario);
 
       return res.json({
           persona

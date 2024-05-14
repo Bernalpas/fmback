@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 import '../css/registro.css'
 
@@ -13,6 +15,37 @@ const Registro = () => {
     const [password, setPassword] = useState('');
     const [consulta, setConsulta] = useState('');
 
+    const navigate = useNavigate();
+
+    const URL = process.env.REACT_APP_POST;
+
+
+    const obtener = (e) => {
+        
+        e.preventDefault();
+
+        console.log(URL);
+
+        console.log(nombre, apellido, email, telefono, provincia, password, consulta);
+
+        alert('Datos enviados');
+
+        limpiarDatos();
+
+    }
+
+    
+    const limpiarDatos = () => {
+
+        setNombre('');
+        setApellido('');
+        setEmail('');
+        setTelefono('');
+        setProvincia('');
+        setPassword('');
+        setConsulta('');
+
+    }
 
     const obtenerDatos = async (e) => {
 
@@ -29,11 +62,42 @@ const Registro = () => {
         }
 
         try {
-            await axios.post('http://localhost:8080/users/registro', persona);
-            console.log('Usuario registrado');
+
+            const response = await axios.post(URL, {
+                nombre,
+                apellido,
+                email,
+                telefono,
+                provincia,
+                password,
+                consulta
+            });
+
+            if(response.status === 200){
+
+                console.log('Usuario registrado');
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                navigate('/');
+
+            } else{
+                console.log('Error al registrar usuario');
+            }
+
+            
         } catch (error) {
             console.log(error);
         }
+
+        limpiarDatos();
+
     }
 
     
@@ -58,7 +122,7 @@ const Registro = () => {
                     </div>
 
                     <div id="formulario">
-                        <form>
+                        <form onSubmit={obtenerDatos}>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">
@@ -66,7 +130,8 @@ const Registro = () => {
                                         <input   
                                             type="text" 
                                             class="form-control"
-                                            placeholder="Ana" 
+                                            placeholder="Ana"
+                                            value={nombre} 
                                             onChange={(e) => setNombre(e.target.value)}
                                             required 
                                             />
@@ -76,8 +141,14 @@ const Registro = () => {
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input id="apellido" name="apellido" type="text" class="form-control"
-                                            placeholder="García" required />
+                                        <input 
+                                            id="apellido" 
+                                            type="text" 
+                                            class="form-control"
+                                            placeholder="García" 
+                                            value={apellido} 
+                                            onChange={(e) => setApellido(e.target.value)}
+                                            required />
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +157,12 @@ const Registro = () => {
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input id="email" name="email" class="form-control" type="email"
+                                        <input 
+                                            id="email" 
+                                            class="form-control" 
+                                            type="email"
+                                            value={email} 
+                                            onChange={(e) => setEmail(e.target.value)}
                                             placeholder="ana.garcia@example.com" required />
                                     </div>
                                 </div>
@@ -94,34 +170,65 @@ const Registro = () => {
                                 <div class="col-sm-6 mb-3">
                                     <div class="form-group">
                                         <label for="telefono" class="form-label">Teléfono</label>
-                                        <input id="telefono" name="telefono" class="form-control" type="text"
-                                            placeholder="(351) 123-4567" required />
+                                        <input 
+                                            id="telefono" 
+                                            class="form-control" 
+                                            type="text"
+                                            value={telefono} 
+                                            onChange={(e) => setTelefono(e.target.value)}
+                                            placeholder="(351) 123-4567" 
+                                            required />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <div class="form-group">
                                         <label for="telefono" class="form-label">Provincia</label>
-                                        <input id="provincia" name="provincia" class="form-control" type="text" placeholder="Ingrese su Provincia" required />
+                                        <input 
+                                            id="provincia" 
+                                            class="form-control" 
+                                            type="text" 
+                                            value={provincia} 
+                                            onChange={(e) => setProvincia(e.target.value)}
+                                            placeholder="Ingrese su Provincia" 
+                                            required />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <div class="form-group">
                                         <label for="password" class="form-label">Password</label>
-                                        <input id="provincia" name="provincia" class="form-control" type="text" placeholder="Ingrese su Password" required />
+                                        <input 
+                                            id="password" 
+                                            class="form-control" 
+                                            type="password" 
+                                            value={password} 
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Ingrese su Password" 
+                                            required />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="consulta" class="form-label">Consulta</label>
-                                <textarea name="consulta" id="consulta" class="form-control" rows="5"
+                                <textarea 
+                                    id="consulta" 
+                                    class="form-control" 
+                                    rows="5"
+                                    value={consulta} 
+                                    onChange={(e) => setConsulta(e.target.value)}
                                     placeholder="Deje aquí su consulta y nos comunicaremos con usted lo más pronto posible."
                                     required>
                                 </textarea>
                             </div>
 
                             <div className="form-group d-flex justify-content-around">
-                                <input type="submit" class="btn mt-2 bg-primary w-25" id="enviarConsulta" value="Enviar Consulta"></input>
+                                <input 
+                                    type="submit"
+                                    class="btn mt-2 bg-primary w-25" 
+                                    id="enviarConsulta" 
+                                    value="Enviar Consulta" 
+                                    /* onClick={obtener} */
+                                    />
                                 <button type="reset" class="btn mt-2 bg-danger w-25">Borrar Datos</button>
                             </div>
                         </form>
